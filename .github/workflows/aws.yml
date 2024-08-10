@@ -33,4 +33,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64
         push: true
-        tags: docker push ethank482/test:latest
+        tags: ethank482/test:latest
