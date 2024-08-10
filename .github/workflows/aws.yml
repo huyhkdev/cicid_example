@@ -34,13 +34,18 @@ jobs:
         platforms: linux/amd64
         push: true
         tags: ethank482/test:latest
+    - name: Create PEM file
+      run: echo "${{ secrets.AWS_EC2_KEY }}" > ec2_key.pem
+
+    - name: Set file permissions
+      run: chmod 600 ec2_key.pem
 
     - name: Deploy to AWS EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.AWS_EC2_KEY }} ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_HOST }} << 'EOF'
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          sudo docker pull ethank482/test:latest
-          sudo docker stop test || true
-          sudo docker rm test || true
-          sudo docker run -d --name test -p 3000:3000 ethank482/test:latest
+          docker pull ethank482/test:latest
+          docker stop test || true
+          docker rm test || true
+          docker run -d --name test -p 3000:3000 ethank482/test:latest
         EOF
