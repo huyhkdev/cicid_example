@@ -33,4 +33,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/test:latest
+        tags: docker push ethank482/test:latest
