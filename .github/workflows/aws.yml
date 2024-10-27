@@ -33,7 +33,7 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64
         push: true
-        tags: ethank482/test:latest
+        tags: huyhkdev/cicd_example:latest
     - name: Create PEM file
       run: echo "${{ secrets.AWS_EC2_KEY }}" > ec2_key.pem
 
